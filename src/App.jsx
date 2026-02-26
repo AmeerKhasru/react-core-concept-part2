@@ -4,6 +4,7 @@ import Friends from './Friends';
 import Counter from './Counter';
 import User from './User';
 import Posts from './Posts';
+import Todos from './Todos';
 import './App.css';
 
 // ১. Single User Fetch (Promise)
@@ -23,9 +24,15 @@ const fetchfriendsData = async () => {
     return res.json();
   }
 
+  const fetchTodosData = async () => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/todos');
+    return res.json();
+  }
 
 
 function App() {
+
+const todosPromise = fetchTodosData();
 
 const postsPromise = fetchPostsData();
 
@@ -43,6 +50,10 @@ const friendPromise = fetchfriendsData();
   return (
     <>
       <h1>Vite + React</h1>
+
+      <Suspense fallback={<div className="loader">Loading Todos...</div>}>
+        <Todos todosPromise={todosPromise} />
+      </Suspense>
 
       <Suspense fallback={<div className="loader">Loading Posts...</div>}>
         <Posts postsPromise={postsPromise} />
